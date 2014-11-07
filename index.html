@@ -1,15 +1,36 @@
+<!DOCTYPE html>
 <html>
     <head>
         <title>Gratipay Survey Results</title>
-        <link src="js/d3.js">
-        <link src="js/crossfilter.js">
-        <link src="js/dc.js">
-
-        <script type="text/javascript">
-        
-        </script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8">
+        <script type="text/javascript" src="js/d3.js"></script>
+        <script type="text/javascript" src="js/crossfilter.js"></script>
+        <script type="text/javascript" src="js/dc.js"></script>
     </head>
     <body>
+        <script type="text/javascript">
+        var numberFormat = d3.format(".2f");
+        var regionChart = dc.barChart("#region-chart");
+        var regionChart = dc.barChart("#gender-chart");
 
+        d3.csv("data/data.csv", function(csv) {
+            var data = crossfilter(csv);
+            var regions = data.dimension(function (d) {
+                return d["region"];
+            });
+            var gender = data.dimension(function (d) {
+                return d["gender"];
+            });
+            regionChart.width(768)
+                .height(480)
+                .dimension(regions);
+        });
+            </script>
+
+        <script type="text/javascript">
+        dc.renderAll();
+        </script>
+        <div id="region-chart"></div>
+        <div id="gender-chart" /></div>
     </body>
 </html>
